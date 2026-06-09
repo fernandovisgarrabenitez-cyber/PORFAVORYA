@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { solveTriangle, TriangleData, Step } from "@/lib/triangle-solver";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { motion, AnimatePresence } from "framer-motion";
 import { AlertCircle, RotateCcw } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Math as MathRenderer } from "@/components/math-renderer";
 
 export default function Triangles() {
   const [data, setData] = useState<TriangleData>({
@@ -187,9 +188,8 @@ export default function Triangles() {
                         </CardHeader>
                         <CardContent className="py-4 space-y-3">
                           <p className="text-sm text-muted-foreground">{step.description}</p>
-                          <div className="bg-muted/50 p-3 rounded-md font-mono text-sm border flex items-center justify-center">
-                            <span dangerouslySetName={{__html: step.formula}} className="math-font text-lg" />
-                            {step.formula}
+                          <div className="bg-muted/50 p-3 rounded-md text-sm border flex items-center justify-center">
+                            <MathRenderer formula={step.formula} display />
                           </div>
                         </CardContent>
                       </Card>
