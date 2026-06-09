@@ -8,6 +8,8 @@ import Home from "@/pages/home";
 import Triangles from "@/pages/triangles";
 import Identities from "@/pages/identities";
 import Graphs from "@/pages/graphs";
+import Exercises from "@/pages/exercises";
+import Achievements from "@/pages/achievements";
 
 const queryClient = new QueryClient();
 
@@ -18,6 +20,8 @@ function Router() {
       <Route path="/triangulos" component={Triangles} />
       <Route path="/identidades" component={Identities} />
       <Route path="/graficas" component={Graphs} />
+      <Route path="/ejercicios" component={Exercises} />
+      <Route path="/logros" component={Achievements} />
       <Route component={NotFound} />
     </Switch>
   );
