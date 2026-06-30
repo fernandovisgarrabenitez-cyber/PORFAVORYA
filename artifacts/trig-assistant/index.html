@@ -1,21 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+
+    <!--
+      A05: Security Meta Tags
+      CSP restricts script/style/font/connect sources.
+      Note: frame-ancestors requires an HTTP header — handled by Vite server.headers / Express helmet.
+    -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; base-uri 'self'; form-action 'self'" />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+
     <title>El Asistente Trigonométrico</title>
-    <meta name="description" content="El Asistente Trigonométrico — built on Replit. Update this description to reflect the app." />
+    <meta name="description" content="Plataforma interactiva de aprendizaje de trigonometría en español. Triángulos, identidades, gráficas y ejercicios con verificación paso a paso." />
     <meta name="robots" content="index, follow" />
     <meta property="og:title" content="El Asistente Trigonométrico" />
-    <meta property="og:description" content="El Asistente Trigonométrico — built on Replit. Update this description to reflect the app." />
+    <meta property="og:description" content="Aprende trigonometría paso a paso con ejercicios interactivos, identidades guiadas y visualizaciones." />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="El Asistente Trigonométrico" />
-    <meta name="twitter:description" content="El Asistente Trigonométrico — built on Replit. Update this description to reflect the app." />
+    <meta name="twitter:description" content="Aprende trigonometría paso a paso con ejercicios interactivos." />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   </head>
   <body>
     <div id="root"></div>

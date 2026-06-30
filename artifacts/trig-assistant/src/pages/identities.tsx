@@ -700,8 +700,10 @@ export default function Identities() {
                         id="input-lhs"
                         placeholder="Ej: tan(x)*cos(x)"
                         value={lhsInput}
-                        onChange={e => setLhsInput(e.target.value)}
+                        // A03: Limit input length
+                        onChange={e => { if (e.target.value.length <= 200) setLhsInput(e.target.value); }}
                         onKeyDown={e => e.key === "Enter" && handleAnalyze()}
+                        maxLength={200}
                         data-testid="input-lhs"
                       />
                     </div>
@@ -711,8 +713,9 @@ export default function Identities() {
                         id="input-rhs"
                         placeholder="Ej: sin(x)"
                         value={rhsInput}
-                        onChange={e => setRhsInput(e.target.value)}
+                        onChange={e => { if (e.target.value.length <= 200) setRhsInput(e.target.value); }}
                         onKeyDown={e => e.key === "Enter" && handleAnalyze()}
+                        maxLength={200}
                         data-testid="input-rhs"
                       />
                     </div>

@@ -17,7 +17,14 @@ export function Math({ formula, display = false, className = "" }: MathProps) {
         output: "html",
       });
     } catch {
-      return `<span style="color:red">${formula}</span>`;
+      // A03: Escape raw input — never inject user strings directly into HTML
+      const safe = formula
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#x27;");
+      return `<span class="text-destructive text-xs font-mono">[Error: ${safe}]</span>`;
     }
   }, [formula, display]);
 

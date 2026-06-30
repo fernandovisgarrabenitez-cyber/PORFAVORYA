@@ -205,11 +205,35 @@ export const ACHIEVEMENTS: Achievement[] = [
 // STORAGE HELPERS
 // ══════════════════════════════════════════════════════════
 
+// A02: Validate localStorage data shape before trusting it
+function isStringArray(v: unknown): v is string[] {
+  return Array.isArray(v) && v.every((x) => typeof x === "string");
+}
+
+function sanitizeStats(raw: unknown): UserStats {
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return { ...DEFAULT_STATS };
+  const r = raw as Record<string, unknown>;
+  return {
+    completedExercises: isStringArray(r.completedExercises) ? r.completedExercises.slice(0, 100) : [],
+    noHintExercises: isStringArray(r.noHintExercises) ? r.noHintExercises.slice(0, 100) : [],
+    perfectExercises: isStringArray(r.perfectExercises) ? r.perfectExercises.slice(0, 100) : [],
+    totalSolvingAttempts: typeof r.totalSolvingAttempts === "number" && r.totalSolvingAttempts >= 0
+      ? Math.min(Math.floor(r.totalSolvingAttempts), 1_000_000)
+      : 0,
+    unlockedAchievements: isStringArray(r.unlockedAchievements) ? r.unlockedAchievements.slice(0, 100) : [],
+  };
+}
+
 export function loadStats(): UserStats {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return { ...DEFAULT_STATS };
-    return { ...DEFAULT_STATS, ...JSON.parse(raw) };
+    // A02: Guard against oversized or malformed localStorage data
+    if (raw.length > 10_000) {
+      localStorage.removeItem(STORAGE_KEY);
+      return { ...DEFAULT_STATS };
+    }
+    return sanitizeStats(JSON.parse(raw));
   } catch {
     return { ...DEFAULT_STATS };
   }

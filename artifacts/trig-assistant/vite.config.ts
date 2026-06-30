@@ -66,10 +66,34 @@ export default defineConfig({
     fs: {
       strict: true,
     },
+    // A05: Security headers for the dev server
+    // Note: X-Frame-Options and frame-ancestors are intentionally omitted
+    // in dev so the Replit preview iframe can render. The production host
+    // (Replit's infrastructure) sets those headers automatically.
+    headers: {
+      "X-Content-Type-Options": "nosniff",
+      "X-XSS-Protection": "1; mode=block",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+      "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
+      "Content-Security-Policy": [
+        "default-src 'self'",
+        "script-src 'self' 'unsafe-inline'",
+        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+        "font-src 'self' data: https://fonts.gstatic.com",
+        "img-src 'self' data:",
+        "connect-src 'self' ws: wss:",
+        "base-uri 'self'",
+        "form-action 'self'",
+      ].join("; "),
+    },
   },
   preview: {
     port,
     host: "0.0.0.0",
     allowedHosts: true,
+    headers: {
+      "X-Content-Type-Options": "nosniff",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+    },
   },
 });

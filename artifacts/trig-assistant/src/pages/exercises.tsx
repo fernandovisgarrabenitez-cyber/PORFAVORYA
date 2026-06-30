@@ -383,8 +383,14 @@ export default function Exercises() {
                                 <Input
                                   placeholder="Escribe tu respuesta aquí..."
                                   value={session!.inputValue}
-                                  onChange={(e) => setSession((s) => s ? { ...s, inputValue: e.target.value } : s)}
+                                  onChange={(e) => {
+                                    // A03: Limit input length to prevent oversized payloads
+                                    if (e.target.value.length <= 300) {
+                                      setSession((s) => s ? { ...s, inputValue: e.target.value } : s);
+                                    }
+                                  }}
                                   onKeyDown={(e) => e.key === "Enter" && handleCheck()}
+                                  maxLength={300}
                                   className={`flex-1 font-mono ${
                                     currentStepState === "wrong"
                                       ? "border-destructive ring-1 ring-destructive"
