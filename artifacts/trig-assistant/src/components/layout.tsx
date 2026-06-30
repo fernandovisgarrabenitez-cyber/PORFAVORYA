@@ -1,6 +1,8 @@
 import { Link, useLocation } from "wouter";
-import { Calculator, Triangle, Activity, Waves, Dumbbell, Trophy } from "lucide-react";
+import { Calculator, Triangle, Activity, Waves, Dumbbell, Trophy, LogOut, User } from "lucide-react";
 import { useAchievements } from "@/lib/achievements";
+import { useAuth } from "@/contexts/auth-context";
+import { Button } from "@/components/ui/button";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -9,6 +11,7 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   const [location] = useLocation();
   const { unlockedCount, totalCount } = useAchievements();
+  const { user, logout } = useAuth();
 
   const navItems = [
     { path: "/", label: "Inicio", icon: Calculator },
@@ -56,7 +59,7 @@ export default function Layout({ children }: LayoutProps) {
             })}
           </nav>
 
-          {/* Logros button — always visible */}
+          {/* Logros button */}
           <Link
             href="/logros"
             className={`flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap ml-2 ${
@@ -74,6 +77,26 @@ export default function Layout({ children }: LayoutProps) {
               </span>
             )}
           </Link>
+
+          {/* User info + logout */}
+          {user && (
+            <div className="flex items-center gap-2 ml-3 pl-3 border-l border-border">
+              <span className="hidden md:flex items-center gap-1.5 text-sm text-muted-foreground">
+                <User className="h-3.5 w-3.5" />
+                <span className="font-medium text-foreground">{user.username}</span>
+              </span>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={logout}
+                className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 gap-1.5"
+                title="Cerrar sesión"
+              >
+                <LogOut className="h-4 w-4" />
+                <span className="hidden sm:inline-block text-xs">Salir</span>
+              </Button>
+            </div>
+          )}
         </div>
       </header>
 
