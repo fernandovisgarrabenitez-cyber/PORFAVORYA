@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import { db, usersTable } from "@workspace/db";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
+import { sendWelcomeEmail, sendLoginEmail } from "../lib/mailer";
 
 const router = Router();
 
@@ -76,6 +77,9 @@ router.post("/register", async (req, res) => {
 
   const token = signToken(user.id, user.username);
   res.status(201).json({ token, username: user.username });
+
+  // Send welcome email asynchronously — don't block the response
+  sendWelcomeEmail(email.toLowerCase(), user.username).catch(() => {});
 });
 
 router.post("/login", async (req, res) => {
@@ -106,6 +110,9 @@ router.post("/login", async (req, res) => {
 
   const token = signToken(user.id, user.username);
   res.json({ token, username: user.username });
+
+  // Send login notification email asynchronously
+  sendLoginEmail(user.email, user.username).catch(() => {});
 });
 
 router.get("/me", (req, res) => {
